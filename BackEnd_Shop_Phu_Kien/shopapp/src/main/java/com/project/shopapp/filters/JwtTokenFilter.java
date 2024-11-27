@@ -57,13 +57,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
+            logger.error("JWT authentication failed: {}", e.getMessage());
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
     }
 
 
     private boolean isByPassToken(@NonNull HttpServletRequest request){
-        final List<Pair<String, String>> bypassTokens = Arrays.asList(
+        private final Map<String, List<String>> bypassTokens = Arrays.asList(
                 Pair.of(String.format("%s/products", apiPrefix), "GET"),
                 Pair.of(String.format("%s/products", apiPrefix), "POST"),
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
