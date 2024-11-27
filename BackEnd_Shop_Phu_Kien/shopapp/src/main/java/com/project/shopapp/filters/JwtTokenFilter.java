@@ -36,18 +36,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)throws ServletException, IOException {
 
         try{
-            if (isByPassToken(request)) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-            final String authorizationHeader = request.getHeader("Authorization");
-            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-                return;
-            }
-            final String token = authorizationHeader.substring(7);
-            final String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
-            if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (isByPassToken(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        final String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+            return;
+        }
+        final String token = authorizationHeader.substring(7);
+        final String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
+        if (phoneNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User userDetails = (User) userDetailsService.loadUserByUsername(phoneNumber);
                 if (jwtTokenUtil.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -57,14 +57,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            logger.error("JWT authentication failed: {}", e.getMessage());
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
     }
 
 
     private boolean isByPassToken(@NonNull HttpServletRequest request){
-        private final Map<String, List<String>> bypassTokens = Arrays.asList(
+        final List<Pair<String, String>> bypassTokens = Arrays.asList(
                 Pair.of(String.format("%s/products", apiPrefix), "GET"),
                 Pair.of(String.format("%s/products", apiPrefix), "POST"),
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
