@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   products: Product[] = [];
-  categories: Category[] = []; // Dữ liệu động từ categoryService
-  selectedCategoryId: number  = 0; // Giá trị category được chọn
+  categories: Category[] = []; 
+  selectedCategoryId: number  = 0; 
   currentPage: number = 0;
   itemsPerPage: number = 12;
   pages: number[] = [];
@@ -46,12 +46,14 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+  
   searchProducts() {
     this.currentPage = 0;
     this.itemsPerPage = 12;
     debugger
     this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
   }
+
   getProducts(keyword: string, selectedCategoryId: number, page: number, limit: number) {
     debugger
     this.productService.getProducts(keyword, selectedCategoryId, page, limit).subscribe({
