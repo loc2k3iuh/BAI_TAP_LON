@@ -45,11 +45,11 @@ export class OrderComponent implements OnInit{
   ) {
     // Tạo FormGroup và các FormControl tương ứng
     this.orderForm = this.formBuilder.group({
-      fullname: ['hoàng xx', Validators.required], // fullname là FormControl bắt buộc      
-      email: ['hoang234@gmail.com', [Validators.email]], // Sử dụng Validators.email cho kiểm tra định dạng email
-      phone_number: ['11445547', [Validators.required, Validators.minLength(6)]], // phone_number bắt buộc và ít nhất 6 ký tự
-      address: ['nhà x ngõ y', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
-      note: ['dễ vữ'],
+      fullname: ['Nguyễn Tấn Lộc', Validators.required], // fullname là FormControl bắt buộc      
+      email: ['nguyentanloc13c9@gmail.com', [Validators.email]], // Sử dụng Validators.email cho kiểm tra định dạng email
+      phone_number: ['0326559994', [Validators.required, Validators.minLength(6)]], // phone_number bắt buộc và ít nhất 6 ký tự
+      address: ['245 ấp 5, xã Tân Lợi Thạnh, huyện Giồng Trôm, tỉnh Bến Tre', [Validators.required, Validators.minLength(5)]], // address bắt buộc và ít nhất 5 ký tự
+      note: ['dễ vỡ'],
       shipping_method: ['express'],
       payment_method: ['cod']
     });

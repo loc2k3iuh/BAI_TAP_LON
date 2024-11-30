@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
     this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
     this.getCategories(1, 100);
   }
+  
   getCategories(page: number, limit: number) {
     this.categoryService.getCategories(page, limit).subscribe({
       next: (categories: Category[]) => {

@@ -31,7 +31,9 @@ import { OrdersInfoComponent } from './components/order-info/order-info.componen
     LoginComponent, 
     RegisterComponent, 
     SliderComponent, 
-    AppComponent, UserProfileComponent, OrdersInfoComponent
+    AppComponent, 
+    UserProfileComponent, 
+    OrdersInfoComponent
   ],
   imports: [
     BrowserModule,

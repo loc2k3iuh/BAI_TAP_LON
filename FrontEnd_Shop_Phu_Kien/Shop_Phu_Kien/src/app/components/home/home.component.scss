@@ -13,17 +13,25 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    
 }
 
 .product-category {
     width: 200px;
+    color: white;
+    background-color: rgb(12, 12, 55) !important;
+    border: 1px solid rgb(225, 64, 180);
+}
+
+.product-category:focus {
+    border: 1px solid rgb(225, 64, 180);
 }
 
 .search-input {
     width: 300px;
     background-color: rgb(19, 23, 42);
     margin-right: 10px;
-    border-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgb(225, 64, 180);
     color: white;
 }
 

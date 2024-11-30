@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'products/:id', component: DetailProductComponent },
   { path: 'orders', component: OrderComponent, canActivate:[AuthGuardFn] },
   { path: 'user-profile', component: UserProfileComponent, canActivate:[AuthGuardFn] },
-  {path: 'order-info', component: OrdersInfoComponent, canActivate:[AuthGuardFn]},
+  { path: 'order-info', component: OrdersInfoComponent, canActivate:[AuthGuardFn]},
   { path: 'orders/:id', component: OrderDetailComponent },
   { path: '**', redirectTo: '' }, 
 ];

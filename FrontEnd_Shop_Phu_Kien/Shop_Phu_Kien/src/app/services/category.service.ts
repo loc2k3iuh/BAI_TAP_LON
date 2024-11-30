@@ -10,6 +10,7 @@ export class CategoryService {
   private apiGetCategories  = `${environment.api}/categories`;
 
   constructor(private http: HttpClient) { }
+  
   getCategories(page: number, limit: number):Observable<Category[]> {
     const params = new HttpParams()
       .set('page', page.toString())
