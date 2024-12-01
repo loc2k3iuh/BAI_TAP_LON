@@ -1,7 +1,7 @@
 package com.project.shopapp.controllers;
 
 import com.project.shopapp.components.LocalizationUtils;
-import com.project.shopapp.dtos.requests.OrderDTO;
+import com.project.shopapp.dtos.requests.order.OrderDTO;
 import com.project.shopapp.dtos.responses.order.OrderResponse;
 import com.project.shopapp.models.Order;
 import com.project.shopapp.services.order.OrderService;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -28,8 +29,8 @@ public class OrderController {
                 List<String> errorMessages =  bindingResult.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
                 return ResponseEntity.badRequest().body(errorMessages);
             }
-            OrderResponse orderResponse = orderService.createOrder(orderDTO);
-            return ResponseEntity.ok(orderResponse);
+            Order order = orderService.createOrder(orderDTO);
+            return ResponseEntity.ok(OrderResponse.fromOrder(order));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -38,7 +39,11 @@ public class OrderController {
     @GetMapping("user/{user_id}")
     public ResponseEntity<?> getOrdersByUser(@Valid @PathVariable("user_id") int userId){
        try {
-            List<OrderResponse> orderResponses = orderService.findByUserId(userId);
+            List<Order> orders = orderService.findByUserId(userId);
+            List<OrderResponse> orderResponses = new java.util.ArrayList<>(List.of());
+            for (Order order : orders){
+                orderResponses.add(OrderResponse.fromOrder(order));
+            }
             return ResponseEntity.ok(orderResponses);
        }catch (Exception e){
            return ResponseEntity.badRequest().body(e.getMessage());
@@ -48,7 +53,8 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrder(@Valid @PathVariable("id") int userId){
         try {
-            OrderResponse orderResponse = orderService.getOrder(userId);
+            Order order = orderService.getOrder(userId);
+            OrderResponse orderResponse = OrderResponse.fromOrder(order);
             return ResponseEntity.ok(orderResponse);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -58,8 +64,8 @@ public class OrderController {
     @GetMapping("")
     public ResponseEntity<?> getAllOrders(){
         try {
-            List<OrderResponse> orderResponses = orderService.getAllOrders();
-            return ResponseEntity.ok(orderResponses);
+            List<Order> orders = orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -68,8 +74,8 @@ public class OrderController {
     @PutMapping("/{order_id}")
     public ResponseEntity<?> updateOrder(@Valid @PathVariable("order_id") int orderId, @Valid @RequestBody OrderDTO orderDTO){
         try {
-            OrderResponse orderResponse = orderService.updateOrder(orderId, orderDTO);
-            return ResponseEntity.ok(orderResponse);
+            Order order = orderService.updateOrder(orderId, orderDTO);
+            return ResponseEntity.ok(order);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -84,4 +90,6 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 }

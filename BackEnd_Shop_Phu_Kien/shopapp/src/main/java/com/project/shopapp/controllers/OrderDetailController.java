@@ -1,7 +1,7 @@
 package com.project.shopapp.controllers;
 
 import com.project.shopapp.components.LocalizationUtils;
-import com.project.shopapp.dtos.requests.OrderDetailDTO;
+import com.project.shopapp.dtos.requests.order.OrderDetailDTO;
 import com.project.shopapp.dtos.responses.orderdetail.OrderDetailResponse;
 import com.project.shopapp.services.orderdetail.OrderDetailService;
 import jakarta.validation.Valid;

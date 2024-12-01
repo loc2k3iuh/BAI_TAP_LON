@@ -2,8 +2,8 @@ package com.project.shopapp.controllers;
 
 import com.github.javafaker.Faker;
 import com.project.shopapp.components.LocalizationUtils;
-import com.project.shopapp.dtos.requests.ProductDTO;
-import com.project.shopapp.dtos.requests.ProductImageDTO;
+import com.project.shopapp.dtos.requests.product.ProductDTO;
+import com.project.shopapp.dtos.requests.product.ProductImageDTO;
 import com.project.shopapp.dtos.responses.product.ProductListResponse;
 import com.project.shopapp.dtos.responses.product.ProductResponse;
 import com.project.shopapp.models.Product;
@@ -29,6 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -100,7 +101,6 @@ public class ProductController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
-
     }
 
     @PostMapping(value = "/uploads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -117,7 +117,6 @@ public class ProductController {
                 if (file.getSize() == 0) {
                     continue;
                 }
-
                 if (file.getSize() > 10 * 1024 * 1024) {
                     return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File size is too large");
                 }
@@ -195,6 +194,19 @@ public class ProductController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
 
+        }
+    }
+
+    @GetMapping("/by_ids")
+    public ResponseEntity<?> getProductsByIds(@RequestParam("ids") String ids){
+        try {
+            List<Integer> productIds = Arrays.stream(ids.split(","))
+                    .map(Integer::parseInt)
+                    .toList();
+            List<Product> products = productService.findProductsBuIds(productIds);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+           return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
